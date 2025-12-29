@@ -1,0 +1,46 @@
+﻿@model IEnumerable<OrderDetail>
+@{
+    Layout = null;
+    int i = 0;
+    decimal sum = 0;
+}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr class="bg-primary">
+            <th class="text-center">STT</th>
+            <th class="text-center">Tên hàng</th>
+            <th class="text-center">ĐVT</th>
+            <th class="text-center">Số lượng</th>
+            <th class="text-center">Giá</th>
+            <th class="text-center">Thành tiền</th>
+            <th style="width:40px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">@(++i)</td>
+                <td>@item.ProductName</td>
+                <td class="text-center">@item.Unit</td>
+                <td class="text-center">@item.Quantity</td>
+                <td class="text-right">@item.SalePrice</td>
+                <td class="text-right">@item.TotalPrice</td>
+                <td class="text-right">
+                    <a href="javascript:;" onclick="removeFromCart(@item.ProductID)" class="btn btn-xs btn-danger">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                </td>
+            </tr>
+            sum += item.TotalPrice;
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="5" class="text-right">Tổng cộng:</th>
+            <th class="text-right">@(sum)</th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>

@@ -1,0 +1,60 @@
+﻿@using SV22T1080053.Shop.AppCodes
+@using SV22T1080053.DomainModels
+@{
+    var cat = await CommonDataService.CategoryDB.ListAsync() ?? new List<Category>();
+
+    // 1. Lấy tên Controller và Action hiện tại
+    string currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+
+}
+
+<div class="container-fluid nav-bar p-0">
+    <div class="row gx-0 bg-primary px-5 align-items-center">
+        <div class="col-lg-3 d-none d-lg-block">
+            <nav class="navbar navbar-light position-relative" style="width: 300px;">
+                <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#allCat">
+                    <h4 class="m-0"><i class="fa fa-bars me-2"></i>Loại Dao</h4>
+                </button>
+                <div class="collapse navbar-collapse rounded-bottom" id="allCat">
+                    <div class="navbar-nav ms-auto py-0">
+                        <ul class="list-unstyled categories-bars">
+                            @foreach (var item in cat)
+                            {
+                                <li>
+                                    <div class="categories-bars-item">
+                                        <a href="~/Shop?categoryID=@item.CategoryID" class="text-dark text-decoration-none d-block py-2">
+                                            @item.CategoryName
+                                        </a>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="col-12 col-lg-9">
+            <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+
+                        <a href="~/" class="nav-item nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")">Trang chủ</a>
+
+                        <a href="~/Shop" class="nav-item nav-link @(currentController == "Shop" ? "active" : "")">Cửa hàng</a>
+
+                        <a href="~/Cart" class="nav-item nav-link @(currentController == "Cart" ? "active" : "")">Giỏ hàng</a>
+
+                        <a href="~/Order/History" class="nav-item nav-link me-2 @(currentController == "Order" ? "active" : "")">Đơn hàng</a>
+                    </div>
+
+                    <a href="tel:0123456789" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0">
+                        <i class="fa fa-mobile-alt me-2"></i> +0123 456 7890
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>

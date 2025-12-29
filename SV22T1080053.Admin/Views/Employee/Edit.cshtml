@@ -1,0 +1,91 @@
+﻿@model EmployeeEditModel
+@{
+
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <form class="form-horizontal" method="post" enctype="multipart/form-data" action="~/Employee/SaveData">
+            <input type="hidden" asp-for="EmployeeID" />
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Họ và tên:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" autofocus asp-for="FullName" />
+                    <span asp-validation-for="FullName"></span>
+                </div>
+                
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Ngày sinh:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control date-picker" 
+                            name="@nameof(Model.BirthDate)" 
+                            value="@string.Format("{0:dd/MM/yyyy}", Model.BirthDate)"  />
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Địa chỉ:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" asp-for="Address" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Điện thoại:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" asp-for="Phone" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Email:</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" asp-for="Email" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" asp-for="IsWorking" /> Nhân viên đang làm việc
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Ảnh cá nhân:</label>
+                <div class="col-sm-10">
+                    <input type="hidden" asp-for="Photo" />
+                    <input type="file" class="form-control" accept="image/*" asp-for="UploadPhoto"
+                           onchange="document.getElementById('imgPhoto').src = window.URL.createObjectURL(this.files[0])" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-sm-10">
+                    <img id="imgPhoto" src="~/images/employees/@Model.Photo" class="img img-bordered" style="width:200px" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-floppy-o"></i>
+                        Lưu dữ liệu
+                    </button>
+                    <a href="~/Employee" class="btn btn-default">
+                        Quay lại
+                    </a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>

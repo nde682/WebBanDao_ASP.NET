@@ -1,0 +1,120 @@
+﻿@using SV22T1080053.Shop.AppCodes
+@{
+    var userData = User.GetUserData();
+}
+<div class="container-fluid px-5 py-2 d-none d-lg-block border-bottom">
+    <div class="row gx-0 align-items-center">
+
+        <div class="col-lg-3 ">
+            <a href="~/" class="navbar-brand p-0 d-flex align-items-center">
+                <h1 class="display-5 text-primary m-0 ">
+                    <i class="fas fa-shopping-bag text-secondary me-2"></i>NDE Shop
+                </h1>
+            </a>
+        </div>
+
+            <div class="col-md-4 col-lg-5 text-center">
+                <div class="position-relative ps-4">
+                    <form action="~/Shop" method="get">
+                        <div class="d-flex border rounded-pill">
+ 
+                            <input class="form-control border-0 rounded-pill w-100 py-3" type="text" name="searchValue"
+                                   data-bs-target="#dropdownToggle123" placeholder="Search Looking For?">
+                            <select class="form-select text-dark border-0 border-start rounded-0 p-3" name="CategoryID" asp-items="await selectListHelper.Category()" style="width: 300px;">
+                            </select>
+                            <button type="submit" class="btn btn-primary rounded-pill py-3 px-5" style="border: 0;">
+                                <i class="fas fa-search"></i>
+                            </button> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+        
+
+        <div class="col-lg-4 text-end">
+            <div class="d-flex align-items-center justify-content-end gap-4">
+
+                <div class="dropdown">
+                    @if (userData != null)
+                    {
+                        <a href="#" class="dropdown-toggle text-dark text-decoration-none d-flex align-items-center" data-bs-toggle="dropdown">
+                            <div class="me-2 text-end">
+                                <small class="d-block fw-bold">Xin chào,</small>
+                                <small>@userData.DisplayName</small>
+                            </div>
+                            @{
+                                string imgUrl = string.IsNullOrEmpty(userData.Photo)
+                                ? ApplicationContext.CustomerImagePath + "default-user.png"
+                                : ApplicationContext.CustomerImagePath + userData.Photo;
+                            }
+                            <img src="@imgUrl" alt="User" class="rounded-circle border" style="width:40px; height:40px; object-fit: cover;">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end rounded shadow-sm mt-2">
+                            <a href="~/Account/Profile" class="dropdown-item"><i class="fas fa-id-card me-2 text-muted"></i> Thông tin cá nhân</a>
+                            <a href="~/Account/ChangePassword" class="dropdown-item"><i class="fas fa-key me-2 text-muted"></i> Đổi mật khẩu</a>
+                            <a href="~/Account/Statistics" class="dropdown-item"><i class="fas fa-history me-2 text-muted"></i> Thống kê mua hàng</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="~/Account/Logout" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="#" class="dropdown-toggle text-dark text-decoration-none d-flex align-items-center" data-bs-toggle="dropdown">
+                            <div class="me-2 text-end">
+                                <small class="d-block text-muted">Tài khoản</small>
+                                <span class="fw-bold">Đăng nhập</span>
+                            </div>
+                            <span class="rounded-circle bg-light border d-flex align-items-center justify-content-center" style="width:40px; height:40px;">
+                                <i class="fas fa-user text-primary"></i>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end rounded shadow-sm mt-2">
+                            <a href="~/Account/Login" class="dropdown-item">Đăng nhập</a>
+                            <a href="~/Account/Register" class="dropdown-item">Đăng ký</a>
+                        </div>
+                    }
+                </div>
+
+                <a href="~/Cart" class="text-dark text-decoration-none d-flex align-items-center">
+                    <div class="position-relative me-2">
+                        <span class="rounded-circle btn-md-square border bg-light">
+                            <i class="fas fa-shopping-cart text-primary"></i>
+                        </span>
+                        <span id="cart-global-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">
+                            0
+                        </span>
+                    </div>
+                    <div>
+                        <small class="d-block text-muted">Giỏ hàng</small>
+                        <span id="cart-global-total" class="fw-bold">0 ₫</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        showCartInfo();
+    });
+
+    function showCartInfo() {
+        $.ajax({
+            url: "/Cart/GetCartInfo",
+            type: "GET",
+            success: function (data) {
+                if (data.count > 0) {
+                    $("#cart-global-count").text(data.count).show();
+                } else {
+                    $("#cart-global-count").hide();
+                }
+                var formattedTotal = data.total.toLocaleString('vi-VN') + " ₫";
+                $("#cart-global-total").text(formattedTotal);
+            },
+            error: function () {
+                console.log("Không thể tải thông tin giỏ hàng");
+            }
+        });
+    }
+</script>

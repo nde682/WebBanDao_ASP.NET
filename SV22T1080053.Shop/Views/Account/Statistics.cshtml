@@ -1,0 +1,150 @@
+﻿@model SV22T1080053.DomainModels.CustomerStatistics
+@using SV22T1080053.Shop.AppCodes
+@{
+    ViewData["Title"] = "Thống kê mua sắm";
+    // Lấy thông tin user để hiển thị Avatar bên sidebar
+    var userData = User.GetUserData();
+}
+
+<div class="container-fluid page-header py-5">
+    <div class="container text-center py-5">
+        <h1 class="display-6 text-white mb-4 animated slideInDown">Thống kê mua sắm</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="~/Account/Profile">Tài khoản</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Thống kê</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-5 to">
+
+            <div class="col-lg-4 col-md-12 wow fadeIn" data-wow-delay="0.1s">
+                <div class="bg-white border rounded p-4 shadow-sm text-center">
+                    <div class="position-relative d-inline-block mb-4">
+                        @{
+                            string photoName = userData?.Photo ?? "";
+                            string imgSrc = string.IsNullOrEmpty(photoName)
+                            ? $"{ApplicationContext.CustomerImagePath}NOimages.png"
+                            : $"{ApplicationContext.CustomerImagePath}{photoName}";
+                        }
+                        <img src="@imgSrc" class="img-fluid rounded-circle border border-3 border-primary p-1"
+                             style="width: 150px; height: 150px; object-fit: cover;" alt="Avatar">
+                    </div>
+
+                    <h4 class="fw-bold text-dark">@userData?.DisplayName</h4>
+                    <p class="text-muted mb-4">@userData?.Email</p>
+
+                    <div class="d-grid gap-2 text-start">
+                        <a href="~/Account/Profile" class="btn btn-outline-primary rounded-pill">
+                            <i class="fas fa-user-circle me-2"></i> Thông tin tài khoản
+                        </a>
+
+                        <a href="~/Account/Statistics" class="btn btn-primary rounded-pill text-white">
+                            <i class="fas fa-chart-pie me-2"></i> Thống kê mua sắm
+                        </a>
+
+                        <a href="~/Account/ChangePassword" class="btn btn-outline-primary rounded-pill">
+                            <i class="fas fa-key me-2"></i> Đổi mật khẩu
+                        </a>
+
+                        <a href="~/Account/Logout" class="btn btn-outline-danger rounded-pill mt-2">
+                            <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-12 wow fadeIn" data-wow-delay="0.3s">
+                <div class="bg-white border rounded p-5 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                        <h3 class="text-primary">Tổng quan hoạt động</h3>
+                    </div>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <div class="p-4 border rounded d-flex align-items-center justify-content-between bg-light">
+                                <div>
+                                    <p class="mb-2 text-muted text-uppercase small fw-bold">Tổng đơn hàng</p>
+                                    <h3 class="mb-0 text-primary fw-bold">@Model.TotalOrders</h3>
+                                </div>
+                                <div class="bg-white rounded-circle p-3 shadow-sm text-primary">
+                                    <i class="fas fa-receipt fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-4 border rounded d-flex align-items-center justify-content-between bg-primary text-white">
+                                <div>
+                                    <p class="mb-2 text-white-50 text-uppercase small fw-bold">Tổng chi tiêu</p>
+                                    <h3 class="mb-0 fw-bold">@Model.TotalSpent.ToString("N0") ₫</h3>
+                                </div>
+                                <div class="bg-white rounded-circle p-3 shadow-sm text-primary">
+                                    <i class="fas fa-wallet fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded text-center h-100">
+                                <div class="mb-2 text-warning">
+                                    <i class="fas fa-hourglass-half fa-2x"></i>
+                                </div>
+                                <h4 class="fw-bold">@Model.WaitingOrders</h4>
+                                <small class="text-muted">Đang xử lý</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded text-center h-100">
+                                <div class="mb-2 text-success">
+                                    <i class="fas fa-check-circle fa-2x"></i>
+                                </div>
+                                <h4 class="fw-bold">@Model.FinishedOrders</h4>
+                                <small class="text-muted">Hoàn tất</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded text-center h-100">
+                                <div class="mb-2 text-danger">
+                                    <i class="fas fa-times-circle fa-2x"></i>
+                                </div>
+                                <h4 class="fw-bold">@Model.CancelledOrders</h4>
+                                <small class="text-muted">Đã hủy/Từ chối</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-5 text-center">
+                        <a href="~/Account/History" class="btn btn-outline-primary rounded-pill px-4 py-2">
+                            Xem lịch sử chi tiết <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Hiệu ứng cuộn trang mượt mà giống các file kia
+            setTimeout(function () {
+                if ($(".to").length) {
+                    $('html, body').animate({
+                        scrollTop: $(".to").offset().top - 100
+                    }, 800, 'easeInOutExpo');
+                }
+            }, 500);
+        });
+    </script>
+}

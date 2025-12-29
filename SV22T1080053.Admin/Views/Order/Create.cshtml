@@ -1,0 +1,204 @@
+﻿@model ProductSearchCondition
+@{
+    ViewBag.Title = "Lập đơn hàng";
+
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<style>
+    /* CSS chỉnh sửa một chút để Select2 đẹp hơn trên AdminLTE */
+    .select2-container .select2-selection--single {
+        height: 34px !important;
+        border: 1px solid #d2d6de !important;
+        border-radius: 0 !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 32px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 32px !important;
+    }
+</style>
+<div class="box box-primary">
+    <div class="box-body">
+
+        <!-- Tìm kiếm, hiển thị và chọn hàng đưa vào giỏ -->
+        <div class="col-md-4">
+            <!-- Form tìm kiếm mặt hàng -->
+            <h4>Lựa chọn hàng cần bán</h4>
+            <form id="formSearchProducts" action="~/Order/SearchProducts" method="post" data-result="#searchProductResult">
+                <div class="input-group">
+                    <input type="hidden" asp-for="PageSize" />
+                    <input type="hidden" asp-for="SupplierID" />
+                    <input type="hidden" asp-for="CategoryID" />
+                    <input type="hidden" asp-for="MinPrice" />
+                    <input type="hidden" asp-for="MaxPrice" />
+                    <input type="text" asp-for="SearchValue"
+                           class="form-control"
+                           placeholder="Nhập tên mặt hàng cần tìm">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-flat btn-info">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <div id="searchProductResult">
+            </div>
+        </div>
+
+        <!-- Thông tin giỏ hàng, khách hàng -->
+        <div class="col-md-8">
+            <!-- Giỏ hàng -->
+            <h4>Danh sách mặt hàng đã chọn</h4>
+            <div id="cart"></div>
+            
+            <div class="text-right">
+                <a href="javascript:;" class="btn btn-sm btn-danger" onclick="clearCart()">
+                    <i class="fa fa-trash"></i> Xóa giỏ hàng
+                </a>
+            </div>
+
+            <!-- Nhập khách hàng, nhân viên phụ trách và khởi tạo đơn hàng -->
+            <form id="formOrderInit" action="~/Order/Init" method="post" class="form-horizontal">
+                <h4>Thông tin về khách hàng và địa chỉ giao hàng</h4>
+                <div class="form-group ">
+                    <label class="control-label col-sm-2">Khách hàng:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control select2" name="customerID" asp-items="await selectListHelper.Customers()" required
+                        onchange="getCustomerinfo(this)"
+                        >
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Tỉnh/thành:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="deliveryProvince" asp-items="await selectListHelper.Province()" required id="province" >
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Địa chỉ nhận hàng:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="deliveryAddress" id="address"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus-circle"></i> Lập đơn hàng
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function (){
+            $("#formSearchProducts").submit(function (e){
+                e.preventDefault();
+                searchProducts(1);
+            })
+            searchProducts(1);
+            getCart();
+            $('.select2').select2();
+            $("#formOrderInit").submit(function (e){
+                e.preventDefault;
+                var url = $(this).prop("action");
+                var method = $(this).prop("method");
+                var submitData = $(this).serializeArray();
+                $.ajax({
+                    url: url,
+                    method: method,
+                    data: submitData,
+                    success: function (data) {
+                        if(data.code === 1){
+                            location.href = `/Order/Details/${data.data}`;
+                        }else{
+                            alert(data.code + " " + data.message + " id = " + data.data);
+                        }
+                        
+                    }
+                });
+
+            })
+        });
+        function searchProducts(page){
+            var url = $("#formSearchProducts").prop("action");
+            var method = $("#formSearchProducts").prop("method");
+            var container = $("#formSearchProducts").data("result");
+            var submitData = $("#formSearchProducts").serializeArray();
+            submitData.push({ "name":"page", "value": page });
+
+            $.ajax({
+                url: url,
+                method: method,
+                data: submitData,
+                success: function (data) {
+                    $(container).html(data);
+                    $(`inputmask-numeric`).inputmask({
+                          alias : "numeric",
+                          groupSeparator:".",
+                          radixPoint:",",
+                          autoGroup:true,
+                          digits:0,
+                          rightAlign:false,
+                          removeMaskOnSubmit:true
+                    });
+                }
+            });
+        }
+        function getCart(){
+            $.ajax({
+                url: "/Order/GetCart",
+                method: "get",
+                success: function (data) {
+                    $("#cart").html(data);
+                }
+            });
+        }
+        function removeFromCart(id) {
+            $.ajax({
+                url: "/Order/RemoveFromCart/" + id,
+                method: "POST",
+                success: function (data) {
+                    $("#cart").html(data);
+                },
+                error: function () {
+                    alert("Không thể xóa mặt hàng này!");
+                }
+            });
+        }
+        function clearCart(){
+            $.ajax({
+                url: "/Order/ClearCart",
+                method: "POST",
+                success: function (data) {
+                    $("#cart").html(data);
+                },
+                error: function () {
+                    alert("Không thể xóa mặt hàng này!");
+                }
+            });
+        }
+        function getCustomerinfo(obj){
+            var customerId = $(obj).val();
+             $.ajax({
+                url: `/Api/Customer/${customerId}`,
+                method: "GET",
+                success: function (data) {
+                    $("#province").val(data.province)
+                    $("#address").val(data.address)
+                },
+                error: function () {
+                    alert("Lỗi!");
+                }
+            });
+        }
+    </script>
+}

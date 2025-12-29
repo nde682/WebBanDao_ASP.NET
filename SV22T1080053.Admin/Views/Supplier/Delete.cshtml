@@ -1,0 +1,65 @@
+﻿@model Supplier
+@{
+    ViewBag.Title = "Xóa nhà cung cấp";
+}
+
+<div class="box box-danger">
+    <div class="box-body">
+        <form action="~Supplier/Delete/@Model.SupplierID" method="post">
+            <input type="hidden" name="@nameof(Model.SupplierID)" value="@Model.SupplierID" />
+            <div class="form-group">
+                <label>Tên nhà cung cấp:</label>
+                <p class="form-control-static">@Model.SupplierName</p>
+            </div>
+
+            <div class="form-group">
+                <label>Tên giao dịch:</label>
+                <p class="form-control-static">@Model.ContactName</p>
+            </div>
+
+            <div class="form-group">
+                <label>Điện thoại:</label>
+                <p class="form-control-static">@Model.Phone</p>
+            </div>
+
+            <div class="form-group">
+                <label>Email:</label>
+                <p class="form-control-static">@Model.Email</p>
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ:</label>
+                <p class="form-control-static">@Model.Address</p>
+            </div>
+
+            <div class="form-group">
+                <label>Tỉnh/thành:</label>
+                <select class="form-control" name="@nameof(Model.Province)" value="@Model.Province">
+                    @foreach (var province in await SV22T1080053.BussinessLayers.CommonDataService.ProvinceDB.ListAsync())
+                    {
+                        if (province.ProvinceName == Model.Province)
+                        {
+                            <option value="@province.ProvinceName" selected>@province.ProvinceName</option>
+                        }
+                        else
+                        {
+                            <option value="@province.ProvinceName">@province.ProvinceName</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    Xóa dữ liệu
+                </button>
+                <a href="~/Supplier" class="btn btn-default">
+                    Quay lại
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>

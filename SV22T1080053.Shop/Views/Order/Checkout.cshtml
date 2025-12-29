@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "Đặt hàng";
+    var cart = ViewBag.Cart as List<SV22T1080053.Shop.Models.CartItem>;
+    decimal total = cart.Sum(x => x.TotalPrice);
+}
+@model Customer
+<div class="container py-5">
+    <h1 class="mb-4">Thông tin giao hàng</h1>
+    <div class="row">
+        <div class="col-md-5">
+            <form action="~/Order/Init" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Người nhận</label>
+                    <input type="text" class="form-control" value="@Model.CustomerName" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tỉnh/Thành phố giao hàng</label>
+                    <select name="deliveryProvince" class="form-select" id="Province" asp-items="await selectListHelper.Province()" required>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Địa chỉ chi tiết</label>
+                    <input type="text" name="deliveryAddress" class="form-control" value="@Model.Address" placeholder="Số nhà, tên đường..." required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 mt-3">XÁC NHẬN ĐẶT HÀNG</button>
+            </form>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Đơn hàng của bạn</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var item in cart)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="my-0">@item.ProductName</h6>
+                                    <small class="text-muted">x @item.Quantity</small>
+                                </div>
+                                <span class="text-muted">@item.TotalPrice.ToString("N0") ₫</span>
+                            </li>
+                        }
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Tổng thành tiền (VNĐ)</span>
+                            <strong>@total.ToString("N0") ₫</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Lấy tên tỉnh từ Model (Razor) gán vào biến JS
+            var userProvince = '@Html.Raw(Model.Province)';
+
+            // Nếu trong Model có dữ liệu Tỉnh -> Gán nó vào Dropdown
+            if (userProvince) {
+                $("#Province").val(userProvince);
+                if (!$("#Province").val()) {
+                    console.log("Không tìm thấy tỉnh: " + userProvince + " trong danh sách.");
+                }
+            }
+        });
+    </script>
+}

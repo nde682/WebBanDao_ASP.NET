@@ -1,0 +1,15 @@
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.csproj.AssemblyReference.cache
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.GeneratedMSBuildEditorConfig.editorconfig
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.AssemblyInfoInputs.cache
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.AssemblyInfo.cs
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.csproj.CoreCompileInputs.cache
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\bin\Debug\net8.0\SV22T1080053.DataLayers.deps.json
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\bin\Debug\net8.0\SV22T1080053.DataLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\bin\Debug\net8.0\SV22T1080053.DataLayers.pdb
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\bin\Debug\net8.0\SV22T1080053.DomainModels.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\bin\Debug\net8.0\SV22T1080053.DomainModels.pdb
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T108.BEA17A84.Up2Date
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\refint\SV22T1080053.DataLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.pdb
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\ref\SV22T1080053.DataLayers.dll

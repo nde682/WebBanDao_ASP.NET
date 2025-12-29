@@ -1,0 +1,71 @@
+﻿@using SV22T1080053.DomainModels
+@model Customer
+@{
+    ViewBag.Title = "Xóa khách hàng";
+}
+<div class="box box-danger">
+    <div class="box-body">
+        <form action="~/Customer/Delete/@Model.CustomerID" method="post">
+
+            <div class="form-group">
+                <label>Tên khách hàng:</label>
+                <p class="form-control-static">@Model.CustomerName</p>
+            </div>
+
+            <div class="form-group">
+                <label>Tên giao dịch:</label>
+                <p class="form-control-static">@Model.ContactName</p>
+            </div>
+
+            <div class="form-group">
+                <label>Điện thoại:</label>
+                <p class="form-control-static">@Model.Phone</p>
+            </div>
+
+            <div class="form-group">
+                <label>Email:</label>
+                <p class="form-control-static">@Model.Email</p>
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ:</label>
+                <p class="form-control-static">@Model.Address</p>
+            </div>
+
+            <div class="form-group">
+                <label>Tỉnh/thành:</label>
+                <p class="form-control-static">@Model.Province</p>
+            </div>
+
+            <div class="form-group">
+                <label>Trạng thái:</label>
+                <p class="form-control-static">
+                    @(Model.IsLocked ? "Khách hàng đang bị khóa tài khoản" : "Khách hàng không bị khóa")"
+                </p>
+            </div>
+
+            <div class="form-group text-right">
+                @if (!(await SV22T1080053.BussinessLayers.CommonDataService.CustomerDB.InUsed(Model.CustomerID)))
+                {
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Xóa dữ liệu
+                    </button>
+                }
+                else
+                {
+                    <div class="alert alert-danger text-center mt-3" role="alert">
+                        <i class="fa fa-exclamation-triangle me-2"></i>
+                        Không xóa được khách hàng đang có giao dịch
+                    </div>
+                }
+                <div class="text-center">
+                    <a href="~/Customer" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left me-1"></i> Quay lại
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

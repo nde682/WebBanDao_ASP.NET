@@ -1,0 +1,137 @@
+﻿@model SV22T1080053.DomainModels.Order
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    var details = ViewBag.OrderDetails as IEnumerable<SV22T1080053.DomainModels.OrderDetail> ?? new List<SV22T1080053.DomainModels.OrderDetail>(); ;
+    decimal total = 0;
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="mb-0">Chi tiết đơn hàng #@Model.OrderID</h3>
+            <span class="text-muted small">Ngày đặt: @Model.OrderTime.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+        <a href="~/Order/History" class="btn btn-outline-secondary">
+            <i class="fa fa-arrow-left"></i> Quay lại lịch sử
+        </a>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-1">Trạng thái hiện tại:</h5>
+                    @if (Model.Status == Constants.ORDER_INIT) // ORDER_INIT
+                    {
+                        <span class="badge bg-secondary fs-6">Đơn hàng mới (Chờ xác nhận)</span>
+                        <p class="text-muted mb-0 mt-2"><small>Đơn hàng đang chờ cửa hàng xác nhận.</small></p>
+                    }
+                    else if (Model.Status == Constants.ORDER_ACCEPTED)
+                    {
+                        <span class="badge bg-info text-dark fs-6">Đã xác nhận (Đang đóng gói)</span>
+                        <p class="text-muted mb-0 mt-2"><small>Đơn hàng đang được chuẩn bị.</small></p>
+                    }
+                    else if (Model.Status == Constants.ORDER_SHIPPING)
+                    {
+                        <span class="badge bg-warning text-dark fs-6">Đang vận chuyển</span>
+                        <p class="text-muted mb-0 mt-2"><small>Đơn hàng đang được giao đến bạn. Hãy bấm "Đã nhận hàng" khi nhận được gói hàng nhé.</small></p>
+                    }
+                    else if (Model.Status == Constants.ORDER_FINISHED)
+                    {
+                        <span class="badge bg-success fs-6">Hoàn tất thành công</span>
+                        <p class="text-success mb-0 mt-2"><small>Giao dịch hoàn tất vào lúc: @(Model.FinishedTime?.ToString("dd/MM/yyyy HH:mm"))</small></p>
+                    }
+                    else if (Model.Status == Constants.ORDER_CANCEL)
+                    {
+                        <span class="badge bg-danger fs-6">Đã hủy</span>
+                        <p class="text-danger mb-0 mt-2"><small>Bạn đã hủy đơn hàng này.</small></p>
+                    }
+                    else if (Model.Status == Constants.ORDER_REJECTED)
+                    {
+                        <span class="badge bg-danger fs-6">Bị từ chối</span>
+                        <p class="text-danger mb-0 mt-2"><small>Đơn hàng bị từ chối bởi cửa hàng.</small></p>
+                    }
+                </div>
+
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                    @* TRƯỜNG HỢP 1: Đơn mới (1) hoặc Đã duyệt (2) -> Cho phép HỦY *@
+                    @if (Model.Status == 1 || Model.Status == 2)
+                    {
+                        <a href="~/Order/Cancel/@Model.OrderID" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')">
+                            <i class="fa fa-times-circle me-1"></i> Hủy đơn hàng
+                        </a>
+                    }
+
+                    @* TRƯỜNG HỢP 2: Đơn đang giao (3) -> Cho phép XÁC NHẬN ĐÃ NHẬN *@
+                    @if (Model.Status == 3)
+                    {
+                        <a href="~/Order/ConfirmFinished/@Model.OrderID" class="btn btn-success" onclick="return confirm('Xác nhận bạn đã nhận được hàng và sản phẩm không có vấn đề gì?')">
+                            <i class="fa fa-check-circle me-1"></i> Đã nhận được hàng
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Sản phẩm đã đặt</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Sản phẩm</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-end">Giá</th>
+                            <th class="text-end pe-4">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in details)
+                        {
+                            total += item.SalePrice * item.Quantity;
+                            <tr>
+                                <td class="ps-4">Sản phẩm ID: @item.ProductName</td>
+                                <td class="text-center">@item.Quantity</td>
+                                <td class="text-end">@item.SalePrice.ToString("N0") ₫</td>
+                                <td class="text-end pe-4">@((item.SalePrice * item.Quantity).ToString("N0")) ₫</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end fw-bold pt-3">Tổng cộng:</td>
+                            <td class="text-end fw-bold text-primary pe-4 pt-3">@total.ToString("N0") ₫</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end text-muted border-0">Thông tin giao hàng:</td>
+                            <td class="text-end text-muted border-0 pe-4">
+                                @Model.DeliveryAddress, @Model.DeliveryProvince <br>
+                                @* (Nếu bạn có lưu SĐT/Người nhận trong DB thì hiện ở đây) *@
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

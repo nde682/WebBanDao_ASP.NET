@@ -1,0 +1,67 @@
+﻿@model paginationSearchCondition
+@{
+    ViewBag.Title = "Quản lý nhân viên";
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <!-- Form nhập đầu vào tìm kiếm-->
+        <form id="formSearch" action="~/Employee/Search" method="get" data-result="#searchResult">
+
+            <div class="input-group">
+                <input type="hidden" name="PageSize" value="@Model.PageSize" />
+
+                <input name="searchValue"
+                       value="@Model.SearchValue"
+                       type="text"
+                       class="form-control"
+                       placeholder="Nhập tên nhân viên cần tìm"
+                       autofocus />
+
+                <div class="input-group-btn">
+                    <button class="btn btn-info" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+
+                    <a href="~/Employee/Create" class="btn btn-primary" style="margin-left:5px">
+                        <i class="fa fa-plus"></i> Bổ sung
+                    </a>
+                </div>
+            </div>
+
+        </form>
+        <div id="searchResult"></div>
+       
+
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function(){
+            $("#formSearch").submit(function (e) {
+                e.preventDefault();
+                searchData(1);
+            });
+            searchData(@Model.Page);
+        })
+
+        //Gởi yêu cầu đến Search để lấy dữ liệu tại trang page, hiển thị dữ liệu vào #searchResult
+        function searchData(page) {
+
+            var url = $("#formSearch").prop("action");
+            var method = $("#formSearch").prop("method");
+            var container = $("#formSearch").data("result");
+            var submitData = $("#formSearch").serializeArray();
+            submitData.push({ "name":"page", "value": page });
+
+            $.ajax({
+                url: url,
+                method: method,
+                data: submitData,
+                success: function (data) {
+                    $(container).html(data);
+                }
+            });
+        }
+    </script>
+}

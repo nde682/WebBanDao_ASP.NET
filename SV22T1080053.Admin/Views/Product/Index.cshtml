@@ -1,0 +1,84 @@
+﻿@model ProductSearchCondition
+@{
+    ViewBag.Title = "Quản lý mặt hàng";
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <!-- Form đầu vào tìm kiếm -->
+        <form id="formSearch" action="/Product/Search" method="get" data-result="#searchResult">
+            <input type="hidden" asp-for="PageSize" />
+            <div class="row">
+                <div class="col-sm-3">
+                    <label>Loại hàng:</label>
+                    <select class="form-control" asp-for="CategoryID" asp-items="await selectListHelper.Category()">
+                                       
+                    </select>
+                    <span asp-validation-for="CategoryID"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label>Nhà cung cấp:</label>
+                    <select class="form-control" asp-for="SupplierID" asp-items="await selectListHelper.Supplier()">
+                        
+                    </select>
+                    <span asp-validation-for="SupplierID"></span>
+                </div>
+                <div class="col-sm-1">
+                    <label>Giá từ:</label>
+                    <input type="text" class="form-control inputmask-numeric" asp-for="MinPrice">
+                </div>
+                <div class="col-sm-1">
+                    <label>đến:</label>
+                    <input type="text" class="form-control inputmask-numeric" asp-for="MaxPrice">
+                </div>
+                <div class="col-sm-4">
+                    <label>Tên mặt hàng cần tìm:</label>
+                    <div class="input-group">
+                        <input name="SearchValue" type="text" class="form-control" placeholder="Nhập mặt hàng hàng cần tìm" autofocus="" asp-for="SearchValue">
+                        <div class="input-group-btn">
+                            <button class="btn btn-info" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                            <a href="/Product/Create" class="btn btn-primary" style="margin-left:5px">
+                                <i class="fa fa-plus"></i> Bổ sung
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div id="searchResult">
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function(){
+            $("#formSearch").submit(function (e) {
+                e.preventDefault();
+                searchData(1);
+            });
+            searchData(@Model.Page);
+        })
+
+        //Gởi yêu cầu đến Search để lấy dữ liệu tại trang page, hiển thị dữ liệu vào #searchResult
+        function searchData(page) {
+
+            var url = $("#formSearch").prop("action");
+            var method = $("#formSearch").prop("method");
+            var container = $("#formSearch").data("result");
+            var submitData = $("#formSearch").serializeArray();
+            submitData.push({ "name":"page", "value": page });
+
+            $.ajax({
+                url: url,
+                method: method,
+                data: submitData,
+                success: function (data) {
+                    $(container).html(data);
+                }
+            });
+        }
+    </script>
+}

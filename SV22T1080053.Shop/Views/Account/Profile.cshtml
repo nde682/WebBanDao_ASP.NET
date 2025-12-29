@@ -1,0 +1,158 @@
+﻿@model SV22T1080053.DomainModels.Customer
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+
+<div class="container-fluid page-header py-5">
+    <div class="container text-center py-5">
+        <h1 class="display-6 text-white mb-4 animated slideInDown">Hồ sơ khách hàng</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">Thông tin cá nhân</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row g-5 to">
+
+            <div class="col-lg-4 col-md-12 wow fadeIn" data-wow-delay="0.1s">
+                <div class="bg-white border rounded p-4 shadow-sm text-center">
+                    <div class="position-relative d-inline-block mb-4">
+                        @{
+                            string imgSrc = string.IsNullOrEmpty(Model.Photo)
+                            ? $"{ApplicationContext.CustomerImagePath}NOimages.png" // Ảnh mặc định nếu chưa có
+                            : $"{ApplicationContext.CustomerImagePath}{Model.Photo}"; // Đường dẫn ảnh thật
+                        }
+                        <img src="@imgSrc" class="img-fluid rounded-circle border border-3 border-primary p-1"
+                             style="width: 150px; height: 150px; object-fit: cover;" alt="Avatar">
+
+                        <label for="uploadPhotoInput" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-2 cursor-pointer"
+                               style="cursor: pointer;" title="Đổi ảnh đại diện">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                    </div>
+
+                    <h4 class="fw-bold text-dark">@Model.CustomerName</h4>
+                    <p class="text-muted mb-4">@Model.Email</p>
+
+                    <div class="d-grid gap-2 text-start">
+                        <a href="~/Account/Profile" class="btn btn-primary rounded-pill text-white">
+                            <i class="fas fa-user-circle me-2"></i> Thông tin tài khoản
+                        </a>
+                        <a href="~/Account/Statistics" class="btn btn-outline-primary rounded-pill">
+                            <i class="fas fa-chart-pie me-2"></i> Thống kê mua sắm
+                        </a>
+                        <a href="~/Account/ChangePassword" class="btn btn-outline-primary rounded-pill">
+                            <i class="fas fa-key me-2"></i> Đổi mật khẩu
+                        </a>
+                        <a href="~/Account/Logout" class="btn btn-outline-danger rounded-pill mt-2">
+                            <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-12 wow fadeIn" data-wow-delay="0.3s">
+                <div class="bg-white border rounded p-5 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                        <h3 class="text-primary">Cập nhật thông tin</h3>
+                    </div>
+
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> @TempData["Message"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form action="~/Account/UpdateProfile" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="CustomerID" value="@Model.CustomerID" />
+                        <input type="hidden" name="Photo" value="@Model.Photo" />
+
+                        <input type="file" id="uploadPhotoInput" name="uploadPhoto" class="d-none" accept="image/*" onchange="previewImage(this)">
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="CustomerName" name="CustomerName" value="@Model.CustomerName" placeholder="Họ và tên" required>
+                                    <label for="CustomerName">Họ và tên</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="ContactName" name="ContactName" value="@Model.ContactName" placeholder="Tên giao dịch">
+                                    <label for="ContactName">Tên giao dịch (Contact Name)</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control bg-light" id="Email" name="Email" value="@Model.Email" placeholder="Email" readonly>
+                                    <label for="Email">Email (Không thể thay đổi)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.Phone" placeholder="Số điện thoại">
+                                    <label for="Phone">Số điện thoại</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address" placeholder="Địa chỉ">
+                                    <label for="Address">Địa chỉ nhận hàng</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-select" asp-for="Province" asp-items="await selectListHelper.Province()">
+                                    </select>
+                                    <span asp-validation-for="Province"></span>
+                                    <label for="Province">Tỉnh/Thành phố</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-primary rounded-pill py-3 px-5">
+                                    <i class="fas fa-save me-2"></i> Lưu thay đổi
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+            $('html, body').animate({
+            scrollTop: $(".to").offset().top
+            }, 100, 'easeInOutExpo');
+
+        }, 500);
+
+        });
+       
+        // Script nhỏ để xem trước ảnh khi chọn file upload
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    // Tìm thẻ img trong sidebar để đổi src
+                    $('.rounded-circle').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}

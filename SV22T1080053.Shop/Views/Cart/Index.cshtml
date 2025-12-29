@@ -1,0 +1,178 @@
+﻿@model IEnumerable<SV22T1080053.Shop.Models.CartItem>
+@using SV22T1080053.Shop.AppCodes
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    decimal grandTotal = Model != null ? Model.Sum(x => x.TotalPrice) : 0;
+}
+
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Giỏ hàng của bạn</h1>
+</div>
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Tên</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Thành tiền</th>
+                            <th scope="col">Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var imgSrc = string.IsNullOrEmpty(item.Photo)
+                            ? $"{ApplicationContext.ProductImagePath}NOimages.png"
+                            : $"{ApplicationContext.ProductImagePath}{item.Photo}";
+
+                            <tr id="product-row-@item.ProductID">
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <img src="@imgSrc" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                    </div>
+                                </th>
+                                <td>
+                                    <p class="mb-0 mt-4"><a href="~/Product/Detail/@item.ProductID" class="text-dark">@item.ProductName</a></p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4">@item.Price.ToString("N0") ₫</p>
+                                </td>
+                                <td>
+                                    <div class="input-group quantity mt-4" style="width: 120px;">
+                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border"
+                                                onclick="ajaxUpdateQuantity(@item.ProductID, -1)">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+
+                                        <input type="text" id="qty-@item.ProductID" class="form-control form-control-sm text-center border-0" value="@item.Quantity" readonly>
+
+                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border"
+                                                onclick="ajaxUpdateQuantity(@item.ProductID, 1)">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4" id="item-total-@item.ProductID">@item.TotalPrice.ToString("N0") ₫</p>
+                                </td>
+                                <td>
+                                    <a href="~/Cart/RemoveFromCart/@item.ProductID" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Xóa sản phẩm này?')">
+                                        <i class="fa fa-times text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row g-4 justify-content-end">
+                <div class="col-8"></div>
+                <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
+                    <div class="bg-light rounded">
+                        <div class="p-4">
+                            <h1 class="display-6 mb-4">Tổng cộng</h1>
+                        </div>
+                        <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+                            <h5 class="mb-0 ps-4 me-4">Tổng thanh toán</h5>
+                            <p class="mb-0 pe-4 text-primary fw-bold" id="cart-grand-total">@grandTotal.ToString("N0") ₫</p>
+                        </div>
+
+                        <div class="d-flex gap-2 p-4">
+                            <a href="~/Cart/ClearCart" class="btn btn-outline-danger w-50 rounded-pill px-4 py-3 text-uppercase font-weight-bold" onclick="return confirm('Xóa sạch giỏ hàng?')">
+                                Xóa Giỏ
+                            </a>
+                            <a href="~/Order/Checkout" class="btn btn-primary w-50 rounded-pill px-4 py-3 text-uppercase text-white font-weight-bold">
+                                Đặt hàng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <h3 class="text-secondary">Giỏ hàng đang trống</h3>
+                <a href="~/Shop" class="btn btn-primary rounded-pill px-5 py-3 mt-4 text-white">Tiếp tục mua sắm</a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            showCartInfo();
+        });
+        function showCartInfo() {
+        $.ajax({
+            url: "/Cart/GetCartInfo",
+            type: "GET",
+            success: function (data) {
+                if (data.count > 0) {
+                    $("#cart-global-count").text(data.count).show();
+                } else {
+                    $("#cart-global-count").hide();
+                }
+                var formattedTotal = data.total.toLocaleString('vi-VN') + " ₫";
+                $("#cart-global-total").text(formattedTotal);
+            },
+            error: function () {
+                console.log("Không thể tải thông tin giỏ hàng");
+            }
+        });
+        }
+        function ajaxUpdateQuantity(id, change) {
+            // 1. Lấy số lượng hiện tại từ ô input
+            var currentQty = parseInt($("#qty-" + id).val());
+
+            // 2. Tính số lượng mới
+            var newQty = currentQty + change;
+
+            // Nếu giảm về 0 thì hỏi xác nhận xóa (hoặc để Backend xử lý xóa luôn)
+            if(newQty <= 0) {
+                if(!confirm("Bạn muốn xóa sản phẩm này?")) return;
+            }
+
+            // 3. Gửi Ajax
+            $.ajax({
+                url: "/Cart/UpdateQuantity",
+                type: "POST",
+                data: { id: id, quantity: newQty },
+                success: function (response) {
+                    if (response.success) {
+                        if (response.isRemoved) {
+                            // Nếu số lượng về 0 -> Reload trang để xóa dòng
+                            location.reload();
+                        } else {
+                            // 1. Cập nhật ô input số lượng
+                            $("#qty-" + id).val(newQty);
+
+                            // 2. Cập nhật Thành tiền của dòng đó (Format tiền Việt)
+                            var itemTotalFormatted = response.newItemTotal.toLocaleString('vi-VN') + " ₫";
+                            $("#item-total-" + id).text(itemTotalFormatted);
+
+                            // 3. Cập nhật Tổng tiền cả giỏ
+                            var grandTotalFormatted = response.newGrandTotal.toLocaleString('vi-VN') + " ₫";
+                            $("#cart-grand-total").text(grandTotalFormatted);
+                        }
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Lỗi kết nối server!");
+                }
+            });
+        }
+    </script>
+}

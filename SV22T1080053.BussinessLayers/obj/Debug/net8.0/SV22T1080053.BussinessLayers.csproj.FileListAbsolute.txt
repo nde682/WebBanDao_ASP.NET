@@ -1,0 +1,17 @@
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\bin\Debug\net8.0\SV22T1080053.BussinessLayers.deps.json
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\bin\Debug\net8.0\SV22T1080053.BussinessLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\bin\Debug\net8.0\SV22T1080053.BussinessLayers.pdb
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\bin\Debug\net8.0\SV22T1080053.DataLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\bin\Debug\net8.0\SV22T1080053.DomainModels.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\bin\Debug\net8.0\SV22T1080053.DataLayers.pdb
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\bin\Debug\net8.0\SV22T1080053.DomainModels.pdb
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.csproj.AssemblyReference.cache
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.GeneratedMSBuildEditorConfig.editorconfig
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.AssemblyInfoInputs.cache
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.AssemblyInfo.cs
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.csproj.CoreCompileInputs.cache
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T108.8BF9DE86.Up2Date
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\refint\SV22T1080053.BussinessLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.pdb
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\ref\SV22T1080053.BussinessLayers.dll

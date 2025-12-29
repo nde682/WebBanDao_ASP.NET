@@ -1,0 +1,322 @@
+﻿@using SV22T1080053.Shop.AppCodes
+@model ShopSearchModel
+@{
+    ViewData["Title"] = "Cửa hàng";
+    // Lấy danh mục từ Controller truyền qua
+    var categories = ViewBag.Categories as IEnumerable<SV22T1080053.DomainModels.Category>;
+}
+
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Cửa hàng</h1>
+    <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active text-white">Cửa hàng</li>
+    </ol>
+</div>
+<div class="container-fluid px-0">
+    <div class="row g-0">
+        <div class="col-6 col-md-4 col-lg-2 border-start border-end wow fadeInUp" data-wow-delay="0.1s">
+            <div class="p-4">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fa fa-sync-alt fa-2x text-primary"></i>
+                    <div class="ms-4">
+                        <h6 class="text-uppercase mb-2">Hỗ trợ đổi trả</h6>
+                        <p class="mb-0">Liên hệ chúng tôi để hỗ trợ đổi trả</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.2s">
+            <div class="p-4">
+                <div class="d-flex align-items-center">
+                    <i class="fab fa-telegram-plane fa-2x text-primary"></i>
+                    <div class="ms-4">
+                        <h6 class="text-uppercase mb-2">Giao hàng tận nơi</h6>
+                        <p class="mb-0">Giao hàng tận nơi trên toàn quốc</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.3s">
+            <div class="p-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-life-ring fa-2x text-primary"></i>
+                    <div class="ms-4">
+                        <h6 class="text-uppercase mb-2">Hỗ trợ 24/7</h6>
+                        <p class="mb-0">Chúng tôi hỗ trợ liên tục trong ngày</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.4s">
+            <div class="p-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-credit-card fa-2x text-primary"></i>
+                    <div class="ms-4">
+                        <h6 class="text-uppercase mb-2">Thanh toán online</h6>
+                        <p class="mb-0">Thanh toán online mọi nơi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.5s">
+            <div class="p-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-lock fa-2x text-primary"></i>
+                    <div class="ms-4">
+                        <h6 class="text-uppercase mb-2">An toàn thanh toán</h6>
+                        <p class="mb-0">Môi trường thanh toán an toàn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.6s">
+            <div class="p-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-blog fa-2x text-primary"></i>
+                    <div class="ms-4">
+                        <h6 class="text-uppercase mb-2">Dịch vụ hỗ trợ</h6>
+                        <p class="mb-0">Hỗ trợ tư vấn sản phẩm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid shop py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+
+                <div class="product-categories mb-4">
+                    <h4>Danh mục sản phẩm</h4>
+                    <ul class="list-unstyled">
+                        <li>
+                            <div class="categories-item">
+                                <a href="javascript:;" onclick="searchByCategory(0)" class="text-dark category-link" data-id="0">
+                                    <i class="fas fa-apple-alt text-secondary me-2"></i> Tất cả
+                                </a>
+                            </div>
+                        </li>
+                        @if (categories != null)
+                        {
+                            foreach (var cat in categories)
+                            {
+
+                                <li>
+                                    <div class="categories-item">
+                                        @if(Model.CategoryID == cat.CategoryID)
+                                        {
+                                            <a href="javascript:;" onclick="searchByCategory(@cat.CategoryID)" class="category-link text-primary fw-bold" data-id="@cat.CategoryID">
+                                                <i class="fas fa-apple-alt text-secondary me-2"></i> @cat.CategoryName
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:;" onclick="searchByCategory(@cat.CategoryID)" class="category-link text-dark" data-id="@cat.CategoryID">
+                                                <i class="fas fa-apple-alt text-secondary me-2"></i> @cat.CategoryName
+                                            </a>
+                                        }
+
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+
+                <div class="price mb-4">
+                    <h4 class="mb-2">Lọc theo giá</h4>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="text" id="minPriceInput" class="form-control me-1 number-separator"
+                               placeholder="Từ" value="" style="text-align: right;" inputmode="numeric">
+
+                        <span>-</span>
+
+                        <input type="text" id="maxPriceInput" class="form-control ms-1 number-separator"
+                               placeholder="Đến" value="" style="text-align: right;" inputmode="numeric">
+                    </div>
+                    <button type="button" onclick="doSearch(1)" class="btn btn-primary w-100 rounded-pill mt-2">
+                        <i class="fa fa-filter"></i> Áp dụng
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="row g-4 mb-4">
+                    <div class="col-xl-7">
+                        <div class="input-group w-100 mx-auto d-flex">
+                            <input type="search" id="searchInput" class="form-control p-3" placeholder="Nhập tên sản phẩm..." aria-describedby="search-icon-1" autofocus>
+                            <span id="search-icon-1" class="input-group-text p-3" onclick="doSearch(1)" style="cursor:pointer">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 text-end">
+                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between">
+                            <label for="sortSelect">Sắp xếp:</label>
+                            <select id="sortSelect" name="sortSelect" class="border-0 form-select-sm bg-light me-3" onchange="doSearch(1)">
+                                <option value="">Mặc định</option>
+                                <option value="price_asc">Giá: Thấp đến Cao</option>
+                                <option value="price_desc">Giá: Cao đến Thấp</option>
+                                <option value="name_asc">Tên: A - Z</option>
+                                <option value="newest">Mới nhất</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="frmSearchInput" action="~/Shop/Search" method="get" class="d-none">
+                    <input type="hidden" name="page" value="@Model.Page" />
+                    <input type="hidden" name="searchValue" value="@Model.SearchValue" />
+                    <input type="hidden" name="categoryID" value="@Model.CategoryID" />
+                    <input type="hidden" name="minPrice" value="@Model.MinPrice" />
+                    <input type="hidden" name="maxPrice" value="@Model.MaxPrice" />
+                    <input type="hidden" name="sortBy" value="@Model.SortBy" />
+                </form>
+
+                <div class="tab-content">
+                    <div id="tab-5" class="tab-pane fade show p-0 active">
+                        <div id="searchResult" class="row g-4 product">
+                        </div>
+                    </div>
+                    <div id="tab-6" class="tab-pane fade show p-0">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+            // 1. Tắt spinner
+            if ($('#spinner').length > 0) {
+                $('#spinner').removeClass('show');
+            }
+            $('html, body').animate({
+            scrollTop: $(".shop").offset().top
+            }, 100, 'easeInOutExpo');
+            // 2. ÉP FOCUS VÀO Ô TÌM KIẾM (Sau khi spinner tắt)
+            $('#searchInput').focus();
+
+        }, 2000);
+            $(".number-separator").inputmask({
+                alias: "numeric",
+                groupSeparator: ".",      // Dùng DẤU CHẤM để ngăn cách hàng nghìn (Việt Nam style)
+                radixPoint: ",",          // Dùng dấu phẩy nếu có số thập phân (tùy chọn)
+                autoGroup: true,
+                digits: 0,                // Không cho nhập số lẻ thập phân
+                rightAlign: true,
+                removeMaskOnSubmit: true
+            });
+            doSearch(1);
+
+            // Bắt sự kiện Enter tìm kiếm
+            $("#searchInput").keypress(function(e) {
+                if(e.which == 13) doSearch(1);
+            });
+            
+        });
+
+        // Hàm chọn danh mục
+        function searchByCategory(id) {
+            $("input[name='categoryID']").val(id);
+            $(".category-link").removeClass("text-primary fw-bold").addClass("text-dark");
+            $(".category-link[data-id='" + id + "']").removeClass("text-dark").addClass("text-primary fw-bold");
+            doSearch(1);
+        }
+        function addToCart(id) {
+            $.ajax({
+                url: "/Cart/AddToCart",
+                type: "POST", // Quan trọng: Phải là POST để khớp với Controller
+                data: { id: id, quantity: 1 }, // Mặc định số lượng là 1 khi bấm ở danh sách
+                success: function (response) {
+                    if (response.success) {
+                        // Thông báo thành công
+                        alert("Đã thêm sản phẩm vào giỏ hàng!");
+                        showCartInfo();
+                    } else {
+                        alert("Lỗi: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi kết nối đến máy chủ.");
+                }
+            });
+        }
+        // HÀM AJAX TÌM KIẾM
+        function doSearch(page) {
+            var searchVal = $("#searchInput").val();
+            var rawMin = $("#minPriceInput").val();
+            var rawMax = $("#maxPriceInput").val();
+            var sort = $("#sortSelect").val();
+            var minP = "";
+            var maxP = "";
+
+            if (rawMin) {
+                minP = rawMin.replace(/\./g, '');
+            }
+            if (rawMax) {
+                maxP = rawMax.replace(/\./g, '');
+            }
+            if (minP === "" || isNaN(minP)) minP = "0";
+            if (maxP === "" || isNaN(maxP)) maxP = "0";
+
+            $("input[name='searchValue']").val(searchVal);
+            $("input[name='minPrice']").val(minP);
+            $("input[name='maxPrice']").val(maxP);
+            $("input[name='sortBy']").val(sort);
+            $("input[name='page']").val(page);
+            var searchCondition = $("#frmSearchInput").serializeArray();
+            var actionUrl = $("#frmSearchInput").prop("action");
+
+            $.ajax({
+                url: actionUrl,
+                type: "GET",
+                data: searchCondition,
+                beforeSend: function() {
+                    $("#searchResult").html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+                },
+                success: function (result) {
+                    $("#searchResult").html(result);
+
+                    // Áp dụng lại giao diện (Lưới/Danh sách) nếu có
+                    if (typeof applyLayout === "function") {
+                        applyLayout();
+                    }
+
+                    // Kích hoạt lại WOW.js cho sản phẩm mới
+                    if (typeof WOW !== 'undefined') {
+                        new WOW().init();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi:", error);
+                    // Không alert để tránh làm phiền, chỉ log lỗi
+                }
+            });
+        }
+            function showCartInfo() {
+            $.ajax({
+                url: "/Cart/GetCartInfo",
+                type: "GET",
+                success: function (data) {
+                    if (data.count > 0) {
+                        $("#cart-global-count").text(data.count).show();
+                    } else {
+                        $("#cart-global-count").hide();
+                    }
+                    var formattedTotal = data.total.toLocaleString('vi-VN') + " ₫";
+                    $("#cart-global-total").text(formattedTotal);
+                },
+                error: function () {
+                    console.log("Không thể tải thông tin giỏ hàng");
+                }
+            });
+        }
+    </script>
+}

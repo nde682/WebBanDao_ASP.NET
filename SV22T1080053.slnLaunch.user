@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "SV22T1080053.Admin\\SV22T1080053.Admin.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "SV22T1080053.Shop\\SV22T1080053.Shop.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

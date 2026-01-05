@@ -23,7 +23,8 @@ namespace SV22T1080053.DataLayers
                                 CustomerName AS FullName, 
                                 Email, 
                                 Photo, 
-                                'Customer' AS RoleNames
+                                'Customer' AS RoleNames,
+                                IsLocked
                         FROM    Customers
                         WHERE   Email = @username AND Password = @password";
 

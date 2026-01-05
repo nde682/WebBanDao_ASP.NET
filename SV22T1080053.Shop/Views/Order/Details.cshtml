@@ -70,20 +70,20 @@
 
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
 
-                    @* TRƯỜNG HỢP 1: Đơn mới (1) hoặc Đã duyệt (2) -> Cho phép HỦY *@
-                    @if (Model.Status == 1 || Model.Status == 2)
+                    @* TRƯỜNG HỢP 1: Đơn mới (1) hoặc Đã duyệt (2) -> Hiện nút HỦY *@
+                    @if (Model.Status == Constants.ORDER_INIT || Model.Status == Constants.ORDER_ACCEPTED)
                     {
-                        <a href="~/Order/Cancel/@Model.OrderID" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
                             <i class="fa fa-times-circle me-1"></i> Hủy đơn hàng
-                        </a>
+                        </button>
                     }
 
-                    @* TRƯỜNG HỢP 2: Đơn đang giao (3) -> Cho phép XÁC NHẬN ĐÃ NHẬN *@
-                    @if (Model.Status == 3)
+                    @* TRƯỜNG HỢP 2: Đơn đang giao (3) -> Hiện nút XÁC NHẬN *@
+                    @if (Model.Status == Constants.ORDER_SHIPPING)
                     {
-                        <a href="~/Order/ConfirmFinished/@Model.OrderID" class="btn btn-success" onclick="return confirm('Xác nhận bạn đã nhận được hàng và sản phẩm không có vấn đề gì?')">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmOrderModal">
                             <i class="fa fa-check-circle me-1"></i> Đã nhận được hàng
-                        </a>
+                        </button>
                     }
                 </div>
             </div>
@@ -135,3 +135,91 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Xác nhận hủy đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn hủy đơn hàng <strong>#@Model.OrderID</strong> không?</p>
+                <p class="text-muted small">Hành động này không thể hoàn tác.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không, giữ lại</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmCancel">Đồng ý Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmOrderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success">Xác nhận nhận hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fa fa-box-open fa-3x text-success mb-3"></i>
+                <p>Bạn xác nhận đã nhận được gói hàng của đơn <strong>#@Model.OrderID</strong>?</p>
+                <p class="text-muted small">Hãy kiểm tra kỹ sản phẩm trước khi xác nhận.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chưa nhận được</button>
+                <button type="button" class="btn btn-success" id="btnConfirmFinish">Đã nhận hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Lấy ID đơn hàng từ Model (Server-side render ra Client-side)
+            var orderId = @Model.OrderID;
+
+            // --- XỬ LÝ SỰ KIỆN NÚT HỦY TRONG MODAL ---
+            $('#btnConfirmCancel').click(function () {
+                $.ajax({
+                    url: '/Order/Cancel', // Tên Action trong Controller
+                    type: 'POST',
+                    data: { id: orderId },
+                    success: function (res) {
+                        if (res.success) {
+                            location.reload();
+                        } else {
+                            
+                            $('#cancelOrderModal').modal('hide');
+                        }
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra khi kết nối tới máy chủ.");
+                    }
+                });
+            });
+
+            // --- XỬ LÝ SỰ KIỆN NÚT XÁC NHẬN NHẬN HÀNG TRONG MODAL ---
+            $('#btnConfirmFinish').click(function () {
+                $.ajax({
+                    url: '/Order/ConfirmFinished', // Tên Action trong Controller
+                    type: 'POST',
+                    data: { id: orderId },
+                    success: function (res) {
+                        if (res.success) {
+                            location.reload();
+                        } else {
+                           
+                            $('#confirmOrderModal').modal('hide');
+                        }
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra khi kết nối tới máy chủ.");
+                    }
+                });
+            });
+        });
+    </script>
+}

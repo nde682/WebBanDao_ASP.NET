@@ -31,6 +31,11 @@ namespace SV22T1080053.Admin.Controllers
                 ModelState.AddModelError("Error", "Đăng nhập thất bại");
                 return View();
             }
+            if (userAccount.IsLocked)
+            {
+                ModelState.AddModelError("Error", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.");
+                return View();
+            }
 
             //Tạo thông tin để ghi trong "giấy chứng nhận"
             WebUserData userData = new WebUserData()

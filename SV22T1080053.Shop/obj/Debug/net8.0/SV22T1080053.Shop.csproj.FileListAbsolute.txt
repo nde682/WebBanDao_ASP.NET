@@ -86,3 +86,4 @@ E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Shop\obj\Debug\net8.0\SV22T1
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Shop\obj\Debug\net8.0\SV22T1080053.Shop.genruntimeconfig.cache
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Shop\obj\Debug\net8.0\ref\SV22T1080053.Shop.dll
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Shop\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Shop\obj\Debug\net8.0\SV22T1080053.Shop.sourcelink.json

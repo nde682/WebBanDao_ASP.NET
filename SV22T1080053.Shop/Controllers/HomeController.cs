@@ -19,24 +19,27 @@ namespace SV22T1080053.Shop.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var bannerData = await ProductDataService.ProductDB.ListAsync(page: 1, pageSize: 3, searchValue: "");
-            var featuredData = await ProductDataService.ProductDB.ListAsync(page: 1, pageSize: 12, searchValue: "");
-            var bestseller = await ProductDataService.ProductDB.GetAsync(1);
-            // 3. Đưa dữ liệu vào ViewModel
-            var model = new HomeViewModel
-            {
-                BannerProducts = bannerData,
-                BestSeller = bestseller,
-                FeaturedProducts = featuredData
-            };
+            // 1. Lấy tất cả (Lấy ngẫu nhiên hoặc lấy mặc định 8 cái)
+            var AllProducts = await ProductDataService.ProductDB.ListWithSortAsync(1, 8, "",0,0,0,0, "name_asc"); // Giả sử hàm này lấy list có phân trang, bạn có thể viết hàm lấy Top 8 riêng
 
-            // 4. Trả về View kèm theo Model
+            var NewestProducts = await ProductDataService.ProductDB.ListNewestAsync(8);
+
+            var CheapestProducts = await ProductDataService.ProductDB.ListCheapestAsync(8);
+
+            var BestSellerProducts = await ProductDataService.ProductDB.ListBestSellersAsync(8);
+
+            var Bestseller = await ProductDataService.ProductDB.GetBestSellerAsync();
+            var model = new HomeIndexModel
+            {
+                AllProducts = AllProducts,
+                NewestProducts = NewestProducts,
+                CheapestProducts = CheapestProducts,
+                BestSellerProducts = BestSellerProducts,
+                Bestseller = Bestseller?? new Product(),
+            };
             return View(model);
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

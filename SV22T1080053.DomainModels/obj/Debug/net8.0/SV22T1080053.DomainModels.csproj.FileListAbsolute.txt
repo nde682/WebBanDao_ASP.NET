@@ -9,3 +9,4 @@ E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DomainModels\obj\Debug\net8.
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DomainModels\obj\Debug\net8.0\refint\SV22T1080053.DomainModels.dll
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DomainModels\obj\Debug\net8.0\SV22T1080053.DomainModels.pdb
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DomainModels\obj\Debug\net8.0\ref\SV22T1080053.DomainModels.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DomainModels\obj\Debug\net8.0\SV22T1080053.DomainModels.sourcelink.json

@@ -155,57 +155,71 @@ namespace SV22T1080053.Shop.Controllers
 
             return View(order);
         }
-    // 1. XỬ LÝ HỦY ĐƠN HÀNG
-    public async Task<IActionResult> Cancel(int id)
+        // 1. XỬ LÝ HỦY ĐƠN HÀNG
+        [HttpPost] // Thêm cái này để bảo mật, chỉ chấp nhận request POST
+        public async Task<IActionResult> Cancel(int id)
         {
-            var user = User.GetUserData();
-            int customerID = int.Parse(user.UserId);
-
-            var order = await OrderDataService.OrderDB.GetAsync(id);
-
-            // Bảo mật: Chỉ chủ đơn hàng mới được hủy
-            if (order == null || order.CustomerID != customerID)
+            try
             {
-                return RedirectToAction("History");
-            }
+                var user = User.GetUserData();
+                int customerID = int.Parse(user.UserId);
 
-            // Logic: Chỉ cho phép hủy khi đơn hàng MỚI (1) hoặc ĐÃ DUYỆT (2) (tùy chính sách shop)
-            // Nếu đơn đang giao (3) hoặc đã xong (4) thì không hủy được
-            if (order.Status == Constants.ORDER_INIT || order.Status == Constants.ORDER_ACCEPTED)
-            {
-                await OrderDataService.OrderDB.CancelAsync(id);
-                TempData["Message"] = "Đã hủy đơn hàng thành công.";
-            }
-            else
-            {
-                TempData["Error"] = "Đơn hàng đang vận chuyển, không thể hủy!";
-            }
+                var order = await OrderDataService.OrderDB.GetAsync(id);
 
-            return RedirectToAction("Details", new { id = id });
+                // 1. Kiểm tra quyền sở hữu
+                if (order == null || order.CustomerID != customerID)
+                {
+                    return Json(new { success = false, message = "Bạn không có quyền thao tác trên đơn hàng này." });
+                }
+
+                // 2. Kiểm tra trạng thái
+                if (order.Status == Constants.ORDER_INIT || order.Status == Constants.ORDER_ACCEPTED)
+                {
+                    await OrderDataService.OrderDB.CancelAsync(id);
+                    return Json(new { success = true, message = "Đã hủy đơn hàng thành công." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Đơn hàng đang vận chuyển hoặc đã hoàn tất, không thể hủy!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
         }
 
-        // 2. XỬ LÝ XÁC NHẬN NHẬN HÀNG (HOÀN TẤT)
+        [HttpPost] // Thêm cái này
         public async Task<IActionResult> ConfirmFinished(int id)
         {
-            var user = User.GetUserData();
-            int customerID = int.Parse(user.UserId);
-
-            var order = await OrderDataService.OrderDB.GetAsync(id);
-
-            // Bảo mật
-            if (order == null || order.CustomerID != customerID)
+            try
             {
-                return RedirectToAction("History");
-            }
+                var user = User.GetUserData();
+                int customerID = int.Parse(user.UserId);
 
-            // Logic: Chỉ xác nhận được khi đơn hàng ĐANG GIAO (3)
-            if (order.Status == Constants.ORDER_SHIPPING)
+                var order = await OrderDataService.OrderDB.GetAsync(id);
+
+                // 1. Kiểm tra quyền sở hữu
+                if (order == null || order.CustomerID != customerID)
+                {
+                    return Json(new { success = false, message = "Bạn không có quyền thao tác trên đơn hàng này." });
+                }
+
+                // 2. Kiểm tra trạng thái
+                if (order.Status == Constants.ORDER_SHIPPING)
+                {
+                    await OrderDataService.OrderDB.FinishAsync(id);
+                    return Json(new { success = true, message = "Cảm ơn bạn đã xác nhận nhận hàng!" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Trạng thái đơn hàng không hợp lệ để xác nhận." });
+                }
+            }
+            catch (Exception ex)
             {
-                await OrderDataService.OrderDB.FinishAsync(id);
-                TempData["Message"] = "Cảm ơn bạn đã mua hàng!";
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
             }
-
-            return RedirectToAction("Details", new { id = id });
         }
     }
 }

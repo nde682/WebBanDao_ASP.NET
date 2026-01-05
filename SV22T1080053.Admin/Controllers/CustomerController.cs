@@ -6,10 +6,11 @@ using SV22T1080053.Admin.Models;
 using SV22T1080053.BussinessLayers;
 using SV22T1080053.DomainModels;
 using System.Buffers;
+using System.Text.RegularExpressions;
 
 namespace SV22T1080053.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class CustomerController : Controller
     {
         private const int PAGESIZE = 20;
@@ -90,13 +91,33 @@ namespace SV22T1080053.Admin.Controllers
                 {
                     ModelState.AddModelError(nameof(data.ContactName), "Tên liên lạc không được để trống");
                 }
-                if (string.IsNullOrWhiteSpace(data.Phone))
-                {
-                    ModelState.AddModelError(nameof(data.Phone), "Số điện thoại không được để trống");
-                }
                 if (string.IsNullOrWhiteSpace(data.Email))
                 {
-                    ModelState.AddModelError(nameof(data.Email), "Email không được để trống");
+                    ModelState.AddModelError(nameof(data.Email), "Vui lòng nhập địa chỉ Email.");
+                }
+                else
+                {
+                    // Pattern kiểm tra email cơ bản
+                    string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                    if (!Regex.IsMatch(data.Email, emailPattern))
+                    {
+                        ModelState.AddModelError(nameof(data.Email), "Địa chỉ Email không đúng định dạng.");
+                    }
+                }
+
+                // 3. Validate Số điện thoại (Kiểm tra rỗng + Định dạng VN 10 số)
+                if (string.IsNullOrWhiteSpace(data.Phone))
+                {
+                    ModelState.AddModelError(nameof(data.Phone), "Vui lòng nhập số điện thoại.");
+                }
+                else
+                {
+                    // Pattern: Bắt đầu bằng số 0, theo sau là 9 chữ số bất kỳ (Tổng 10 số)
+                    string phonePattern = @"^0\d{9}$";
+                    if (!Regex.IsMatch(data.Phone, phonePattern))
+                    {
+                        ModelState.AddModelError(nameof(data.Phone), "Số điện thoại không hợp lệ (phải bắt đầu bằng số 0 và gồm 10 chữ số).");
+                    }
                 }
                 if (string.IsNullOrWhiteSpace(data.Address))
                 {

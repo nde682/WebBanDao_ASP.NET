@@ -1,12 +1,173 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\Lap trinh ung dung web\\SV22T1080053\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B99760B8-26B1-4759-BFF4-96087A65826F}|SV22T1080053.Shop\\SV22T1080053.Shop.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.shop\\views\\order\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B99760B8-26B1-4759-BFF4-96087A65826F}|SV22T1080053.Shop\\SV22T1080053.Shop.csproj|solutionrelative:sv22t1080053.shop\\views\\order\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.admin\\views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|solutionrelative:sv22t1080053.admin\\views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.admin\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|solutionrelative:sv22t1080053.admin\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.admin\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|solutionrelative:sv22t1080053.admin\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88AB0E7A-A006-40A6-988D-E9853386E0A6}|SV22T1080053.DataLayers\\SV22T1080053.DataLayers.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.datalayers\\reportdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{88AB0E7A-A006-40A6-988D-E9853386E0A6}|SV22T1080053.DataLayers\\SV22T1080053.DataLayers.csproj|solutionrelative:sv22t1080053.datalayers\\reportdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E7E6356-5994-43CF-948A-6429C5608024}|SV22T1080053.DomainModels\\SV22T1080053.DomainModels.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.domainmodels\\reportdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E7E6356-5994-43CF-948A-6429C5608024}|SV22T1080053.DomainModels\\SV22T1080053.DomainModels.csproj|solutionrelative:sv22t1080053.domainmodels\\reportdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.admin\\models\\dashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F9DB5D47-3744-4F7B-822E-6C666EE8E7F8}|SV22T1080053.Admin\\SV22T1080053.Admin.csproj|solutionrelative:sv22t1080053.admin\\models\\dashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6BFFE55-F872-4F00-8A5A-DBB664B19792}|SV22T1080053.BussinessLayers\\SV22T1080053.BussinessLayers.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.bussinesslayers\\reportdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E6BFFE55-F872-4F00-8A5A-DBB664B19792}|SV22T1080053.BussinessLayers\\SV22T1080053.BussinessLayers.csproj|solutionrelative:sv22t1080053.bussinesslayers\\reportdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88AB0E7A-A006-40A6-988D-E9853386E0A6}|SV22T1080053.DataLayers\\SV22T1080053.DataLayers.csproj|e:\\lap trinh ung dung web\\sv22t1080053\\sv22t1080053.datalayers\\provincedal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{88AB0E7A-A006-40A6-988D-E9853386E0A6}|SV22T1080053.DataLayers\\SV22T1080053.DataLayers.csproj|solutionrelative:sv22t1080053.datalayers\\provincedal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Checkout.cshtml",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Shop\\Views\\Order\\Checkout.cshtml",
+              "RelativeDocumentMoniker": "SV22T1080053.Shop\\Views\\Order\\Checkout.cshtml",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Shop\\Views\\Order\\Checkout.cshtml",
+              "RelativeToolTip": "SV22T1080053.Shop\\Views\\Order\\Checkout.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-05T12:39:50.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_Header.cshtml",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Views\\Shared\\_Header.cshtml",
+              "RelativeDocumentMoniker": "SV22T1080053.Admin\\Views\\Shared\\_Header.cshtml",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Views\\Shared\\_Header.cshtml",
+              "RelativeToolTip": "SV22T1080053.Admin\\Views\\Shared\\_Header.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-05T12:37:00.223Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "SV22T1080053.Admin\\Controllers\\HomeController.cs",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "SV22T1080053.Admin\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T12:21:02.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DashboardViewModel.cs",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Models\\DashboardViewModel.cs",
+              "RelativeDocumentMoniker": "SV22T1080053.Admin\\Models\\DashboardViewModel.cs",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Models\\DashboardViewModel.cs",
+              "RelativeToolTip": "SV22T1080053.Admin\\Models\\DashboardViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T12:20:37.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ReportDataService.cs",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.BussinessLayers\\ReportDataService.cs",
+              "RelativeDocumentMoniker": "SV22T1080053.BussinessLayers\\ReportDataService.cs",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.BussinessLayers\\ReportDataService.cs",
+              "RelativeToolTip": "SV22T1080053.BussinessLayers\\ReportDataService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAYwCAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T12:19:45.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ReportData.cs",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.DomainModels\\ReportData.cs",
+              "RelativeDocumentMoniker": "SV22T1080053.DomainModels\\ReportData.cs",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.DomainModels\\ReportData.cs",
+              "RelativeToolTip": "SV22T1080053.DomainModels\\ReportData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T12:18:58.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProvinceDAL.cs",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.DataLayers\\ProvinceDAL.cs",
+              "RelativeDocumentMoniker": "SV22T1080053.DataLayers\\ProvinceDAL.cs",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.DataLayers\\ProvinceDAL.cs",
+              "RelativeToolTip": "SV22T1080053.DataLayers\\ProvinceDAL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T12:16:14.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReportDAL.cs",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.DataLayers\\ReportDAL.cs",
+              "RelativeDocumentMoniker": "SV22T1080053.DataLayers\\ReportDAL.cs",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.DataLayers\\ReportDAL.cs",
+              "RelativeToolTip": "SV22T1080053.DataLayers\\ReportDAL.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwEEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T12:14:30.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "SV22T1080053.Admin\\Views\\Home\\Index.cshtml",
+              "ToolTip": "E:\\Lap trinh ung dung web\\SV22T1080053\\SV22T1080053.Admin\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "SV22T1080053.Admin\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-05T12:12:43.799Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

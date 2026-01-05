@@ -64,9 +64,14 @@
                                     <p class="mb-0 mt-4" id="item-total-@item.ProductID">@item.TotalPrice.ToString("N0") ₫</p>
                                 </td>
                                 <td>
-                                    <a href="~/Cart/RemoveFromCart/@item.ProductID" class="btn btn-md rounded-circle bg-light border mt-4" onclick="return confirm('Xóa sản phẩm này?')">
+                                    <button type="button"
+                                            class="btn btn-md rounded-circle bg-light border mt-4"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteItemModal"
+                                            data-id="@item.ProductID"
+                                            data-name="@item.ProductName">
                                         <i class="fa fa-times text-danger"></i>
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         }
@@ -87,9 +92,13 @@
                         </div>
 
                         <div class="d-flex gap-2 p-4">
-                            <a href="~/Cart/ClearCart" class="btn btn-outline-danger w-50 rounded-pill px-4 py-3 text-uppercase font-weight-bold" onclick="return confirm('Xóa sạch giỏ hàng?')">
+                            <button type="button"
+                                    class="btn btn-outline-danger w-50 rounded-pill px-4 py-3 text-uppercase font-weight-bold"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#clearCartModal">
                                 Xóa Giỏ
-                            </a>
+                            </button>
+
                             <a href="~/Order/Checkout" class="btn btn-primary w-50 rounded-pill px-4 py-3 text-uppercase text-white font-weight-bold">
                                 Đặt hàng
                             </a>
@@ -108,63 +117,116 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteItemModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa sản phẩm <strong id="modal-product-name"></strong> khỏi giỏ hàng?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <a href="#" id="btn-confirm-delete-item" class="btn btn-danger">Xóa ngay</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="clearCartModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Xảnh báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa toàn bộ sản phẩm trong giỏ hàng không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                <a href="~/Cart/ClearCart" class="btn btn-danger">Đồng ý Xóa</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         $(document).ready(function () {
             showCartInfo();
-        });
-        function showCartInfo() {
-        $.ajax({
-            url: "/Cart/GetCartInfo",
-            type: "GET",
-            success: function (data) {
-                if (data.count > 0) {
-                    $("#cart-global-count").text(data.count).show();
-                } else {
-                    $("#cart-global-count").hide();
-                }
-                var formattedTotal = data.total.toLocaleString('vi-VN') + " ₫";
-                $("#cart-global-total").text(formattedTotal);
-            },
-            error: function () {
-                console.log("Không thể tải thông tin giỏ hàng");
-            }
-        });
-        }
-        function ajaxUpdateQuantity(id, change) {
-            // 1. Lấy số lượng hiện tại từ ô input
-            var currentQty = parseInt($("#qty-" + id).val());
 
-            // 2. Tính số lượng mới
+            // --- XỬ LÝ MODAL XÓA 1 SẢN PHẨM ---
+            // Khi modal hiện lên, lấy ID từ nút bấm và gán vào nút Xóa trong Modal
+            $('#deleteItemModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Nút bấm kích hoạt modal
+                var id = button.data('id'); // Lấy giá trị data-id
+                var name = button.data('name'); // Lấy tên sp
+
+                // Cập nhật text tên sản phẩm trong modal
+                var modal = $(this);
+                modal.find('#modal-product-name').text(name);
+
+                // Cập nhật link href cho nút "Xóa ngay"
+                var deleteUrl = "/Cart/RemoveFromCart/" + id;
+                modal.find('#btn-confirm-delete-item').attr('href', deleteUrl);
+            });
+        });
+
+        // Hàm cũ của bạn (Giữ nguyên)
+        function showCartInfo() {
+            $.ajax({
+                url: "/Cart/GetCartInfo",
+                type: "GET",
+                success: function (data) {
+                    if (data.count > 0) {
+                        $("#cart-global-count").text(data.count).show();
+                    } else {
+                        $("#cart-global-count").hide();
+                    }
+                    if(data.total) {
+                         var formattedTotal = data.total.toLocaleString('vi-VN') + " ₫";
+                        $("#cart-global-total").text(formattedTotal);
+                    }
+                },
+                error: function () {
+                    console.log("Không thể tải thông tin giỏ hàng");
+                }
+            });
+        }
+
+        function ajaxUpdateQuantity(id, change) {
+            var currentQty = parseInt($("#qty-" + id).val());
             var newQty = currentQty + change;
 
-            // Nếu giảm về 0 thì hỏi xác nhận xóa (hoặc để Backend xử lý xóa luôn)
+            // Logic khi giảm về 0:
+            // Vì dùng confirm() trong hàm này sẽ chặn code (đồng bộ) còn Modal là bất đồng bộ
+            // Nên cách đơn giản nhất là chặn không cho giảm dưới 1 bằng nút trừ.
+            // Nếu muốn xóa, người dùng phải bấm nút Xóa (thùng rác).
             if(newQty <= 0) {
-                if(!confirm("Bạn muốn xóa sản phẩm này?")) return;
+                // Kích hoạt nút xóa tương ứng với ID này (Mở Modal xóa)
+                $('button[data-id="' + id + '"][data-bs-target="#deleteItemModal"]').click();
+                return; // Dừng lại, không update quantity nữa
             }
 
-            // 3. Gửi Ajax
+            // Gửi Ajax cập nhật
             $.ajax({
                 url: "/Cart/UpdateQuantity",
                 type: "POST",
                 data: { id: id, quantity: newQty },
                 success: function (response) {
                     if (response.success) {
-                        if (response.isRemoved) {
-                            // Nếu số lượng về 0 -> Reload trang để xóa dòng
-                            location.reload();
-                        } else {
-                            // 1. Cập nhật ô input số lượng
-                            $("#qty-" + id).val(newQty);
+                        // Cập nhật UI như cũ
+                        $("#qty-" + id).val(newQty);
+                        var itemTotalFormatted = response.newItemTotal.toLocaleString('vi-VN') + " ₫";
+                        $("#item-total-" + id).text(itemTotalFormatted);
+                        var grandTotalFormatted = response.newGrandTotal.toLocaleString('vi-VN') + " ₫";
+                        $("#cart-grand-total").text(grandTotalFormatted);
 
-                            // 2. Cập nhật Thành tiền của dòng đó (Format tiền Việt)
-                            var itemTotalFormatted = response.newItemTotal.toLocaleString('vi-VN') + " ₫";
-                            $("#item-total-" + id).text(itemTotalFormatted);
-
-                            // 3. Cập nhật Tổng tiền cả giỏ
-                            var grandTotalFormatted = response.newGrandTotal.toLocaleString('vi-VN') + " ₫";
-                            $("#cart-grand-total").text(grandTotalFormatted);
-                        }
+                        // Cập nhật lại số lượng trên Header luôn cho đồng bộ
+                        showCartInfo();
                     } else {
                         alert(response.message);
                     }

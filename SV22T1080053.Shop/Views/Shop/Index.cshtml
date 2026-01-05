@@ -147,7 +147,7 @@
                 <div class="row g-4 mb-4">
                     <div class="col-xl-7">
                         <div class="input-group w-100 mx-auto d-flex">
-                            <input type="search" id="searchInput" class="form-control p-3" placeholder="Nhập tên sản phẩm..." aria-describedby="search-icon-1" autofocus>
+                            <input type="search" id="searchInput" class="form-control p-3" placeholder="Nhập tên sản phẩm..." aria-describedby="search-icon-1" value="@Model.SearchValue" autofocus>
                             <span id="search-icon-1" class="input-group-text p-3" onclick="doSearch(1)" style="cursor:pointer">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -213,7 +213,8 @@
                 rightAlign: true,
                 removeMaskOnSubmit: true
             });
-            doSearch(1);
+
+            doSearch(@Model.Page);
 
             // Bắt sự kiện Enter tìm kiếm
             $("#searchInput").keypress(function(e) {
@@ -236,9 +237,12 @@
                 data: { id: id, quantity: 1 }, // Mặc định số lượng là 1 khi bấm ở danh sách
                 success: function (response) {
                     if (response.success) {
-                        // Thông báo thành công
-                        alert("Đã thêm sản phẩm vào giỏ hàng!");
+                        
                         showCartInfo();
+                        $('#cart-badge-count').text(response.newCartCount);
+
+                        var myModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+                        myModal.show();
                     } else {
                         alert("Lỗi: " + response.message);
                     }
@@ -284,10 +288,9 @@
                 success: function (result) {
                     $("#searchResult").html(result);
 
-                    // Áp dụng lại giao diện (Lưới/Danh sách) nếu có
-                    if (typeof applyLayout === "function") {
-                        applyLayout();
-                    }
+                    $('html, body').animate({
+                    scrollTop: $(".shop").offset().top
+                    }, 100, 'easeInOutExpo');
 
                     // Kích hoạt lại WOW.js cho sản phẩm mới
                     if (typeof WOW !== 'undefined') {

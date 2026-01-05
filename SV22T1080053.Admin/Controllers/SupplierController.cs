@@ -8,7 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SV22T1080053.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class SupplierController : Controller
     {
         private const int PAGESIZE = 20;

@@ -24,7 +24,7 @@ namespace SV22T1080053.DataLayers
         public async Task<UserAccount?> AuthenticateAsync(string userName, string password)
         {
             using var connection = await OpenConnectionAsync();
-            var sql = @"SELECT	EmployeeID AS UserID, Email AS UserName, FullName, Email, Photo, RoleNames
+            var sql = @"SELECT	EmployeeID AS UserID, Email AS UserName, FullName, Email, Photo, RoleNames,IsWorking
                             FROM	Employees
                             WHERE	Email = @username AND Password = @password";
             var parameters = new { userName, password };

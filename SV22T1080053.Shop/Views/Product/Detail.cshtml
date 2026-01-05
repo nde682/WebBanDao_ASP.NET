@@ -118,7 +118,7 @@
                         </div>
 
                         <a href="javascript:;" onclick="addToCartDetail(@Model.ProductID)"
-                           class="btn btn-primary border border-secondary rounded-pill px-5 py-3 mb-4 text-white">
+                           class="btn btn-primary border border-secondary rounded-pill px-5 py-3 mb-4 text-white ajax-add-to-cart">
                             <i class="fa fa-shopping-bag me-2 text-white"></i> Thêm vào giỏ
                         </a>
                     </div>
@@ -157,7 +157,9 @@
                 data: { id: id, quantity: quantity },
                 success: function (response) {
                     showCartInfo();
-                    alert("Đã thêm " + quantity + " sản phẩm vào giỏ hàng!");
+                    $('#cart-badge-count').text(response.newCartCount);
+                        var myModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+                        myModal.show();
                 },
                 error: function () {
                     alert("Lỗi thêm giỏ hàng.");

@@ -96,3 +96,4 @@ E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Admin\bin\Debug\net8.0\SV22T
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Admin\bin\Debug\net8.0\SV22T1080053.DataLayers.pdb
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Admin\bin\Debug\net8.0\SV22T1080053.DomainModels.pdb
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Admin\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.Admin\obj\Debug\net8.0\SV22T1080053.Admin.sourcelink.json

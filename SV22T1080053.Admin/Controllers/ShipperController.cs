@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace SV22T1080053.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ShipperController : Controller
     {
         /*public IActionResult Index()

@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using SV22T1080053.Admin.Models;
 using SV22T1080053.BussinessLayers;
 using SV22T1080053.DomainModels;
+using System.Text.RegularExpressions;
 
 namespace SV22T1080053.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class EmployeeController : Controller
     {
         private const int PAGESIZE = 12;
@@ -104,7 +105,35 @@ namespace SV22T1080053.Admin.Controllers
                 {
                     ModelState.AddModelError(nameof(model.FullName), "Tên nhân viên không được để trống");
                 }
-            
+                if (string.IsNullOrWhiteSpace(model.Email))
+                {
+                    ModelState.AddModelError(nameof(model.Email), "Vui lòng nhập địa chỉ Email.");
+                }
+                else
+                {
+                    // Pattern kiểm tra email cơ bản
+                    string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                    if (!Regex.IsMatch(model.Email, emailPattern))
+                    {
+                        ModelState.AddModelError(nameof(model.Email), "Địa chỉ Email không đúng định dạng.");
+                    }
+                }
+
+                // 3. Validate Số điện thoại (Kiểm tra rỗng + Định dạng VN 10 số)
+                if (string.IsNullOrWhiteSpace(model.Phone))
+                {
+                    ModelState.AddModelError(nameof(model.Phone), "Vui lòng nhập số điện thoại.");
+                }
+                else
+                {
+                    // Pattern: Bắt đầu bằng số 0, theo sau là 9 chữ số bất kỳ (Tổng 10 số)
+                    string phonePattern = @"^0\d{9}$";
+                    if (!Regex.IsMatch(model.Phone, phonePattern))
+                    {
+                        ModelState.AddModelError(nameof(model.Phone), "Số điện thoại không hợp lệ (phải bắt đầu bằng số 0 và gồm 10 chữ số).");
+                    }
+                }
+
 
                 // Thông báo lỗi và yêu cầu nhập lại dữ liệu
                 if (!ModelState.IsValid)

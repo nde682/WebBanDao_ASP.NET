@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using SV22T1080053.BusinessLayers;
 using SV22T1080053.BussinessLayers;
 using SV22T1080053.DomainModels;
@@ -22,7 +23,6 @@ namespace SV22T1080053.Shop.Controllers
             // Nếu đã đăng nhập rồi thì đá về trang chủ, không cần đăng nhập lại
             if (User.Identity != null && User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
-
             return View();
         }
 
@@ -45,6 +45,11 @@ namespace SV22T1080053.Shop.Controllers
             if (userAccount == null)
             {
                 ModelState.AddModelError("Error", "Đăng nhập thất bại! Email hoặc mật khẩu không đúng.");
+                return View();
+            }
+            if (userAccount.IsLocked)
+            {
+                ModelState.AddModelError("Error", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.");
                 return View();
             }
 
@@ -96,22 +101,52 @@ namespace SV22T1080053.Shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(Customer data, string confirmPassword, IFormFile? uploadPhoto,string Password)
         {
+            // 1. Validate Họ và tên
             if (string.IsNullOrWhiteSpace(data.CustomerName))
                 ModelState.AddModelError(nameof(data.CustomerName), "Vui lòng nhập họ và tên.");
 
+            // 2. Validate Email (Kiểm tra rỗng + Định dạng)
             if (string.IsNullOrWhiteSpace(data.Email))
+            {
                 ModelState.AddModelError(nameof(data.Email), "Vui lòng nhập địa chỉ Email.");
+            }
+            else
+            {
+                // Pattern kiểm tra email cơ bản
+                string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                if (!Regex.IsMatch(data.Email, emailPattern))
+                {
+                    ModelState.AddModelError(nameof(data.Email), "Địa chỉ Email không đúng định dạng.");
+                }
+            }
 
+            // 3. Validate Số điện thoại (Kiểm tra rỗng + Định dạng VN 10 số)
+            if (string.IsNullOrWhiteSpace(data.Phone))
+            {
+                ModelState.AddModelError(nameof(data.Phone), "Vui lòng nhập số điện thoại.");
+            }
+            else
+            {
+                // Pattern: Bắt đầu bằng số 0, theo sau là 9 chữ số bất kỳ (Tổng 10 số)
+                string phonePattern = @"^0\d{9}$";
+                if (!Regex.IsMatch(data.Phone, phonePattern))
+                {
+                    ModelState.AddModelError(nameof(data.Phone), "Số điện thoại không hợp lệ (phải bắt đầu bằng số 0 và gồm 10 chữ số).");
+                }
+            }
+
+            // 4. Validate Mật khẩu
             if (string.IsNullOrWhiteSpace(Password))
                 ModelState.AddModelError("Password", "Vui lòng nhập mật khẩu.");
+
+            if (!string.IsNullOrEmpty(Password) && Password.Length < 6)
+                ModelState.AddModelError("Password", "Mật khẩu phải có ít nhất 6 ký tự.");
 
             if (Password != confirmPassword)
                 ModelState.AddModelError("confirmPassword", "Mật khẩu nhập lại không khớp.");
 
-            // Kiểm tra độ dài mật khẩu (tùy chọn)
-            if (!string.IsNullOrEmpty(Password) && Password.Length < 6)
-                ModelState.AddModelError("Password", "Mật khẩu phải có ít nhất 6 ký tự.");
-            if (!ModelState.IsValid) return View(data);
+            if (!ModelState.IsValid)
+                return View(data);
             string Photo = "";
             // Xử lý ảnh đại diện
             if (uploadPhoto != null && uploadPhoto.Length > 0)
@@ -119,9 +154,11 @@ namespace SV22T1080053.Shop.Controllers
                 // Đặt tên file duy nhất để tránh trùng lặp: TimeStamp + Tên gốc
                 string fileName = $"{DateTime.Now.Ticks}_{uploadPhoto.FileName}";
 
-                // Đường dẫn lưu file: wwwroot/images/customers
-                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), ApplicationContext.CustomerImagePath);
+                // Lấy thư mục hiện tại của Shop, lùi ra ngoài 1 cấp (..), rồi đi vào Admin
+                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SV22T1080053.Admin", "wwwroot", "images", "customers");
 
+                // Chuẩn hóa đường dẫn (để xóa các dấu .. thừa)
+                folderPath = Path.GetFullPath(folderPath);
                 // Tạo thư mục nếu chưa có
                 if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
 
@@ -234,16 +271,42 @@ namespace SV22T1080053.Shop.Controllers
                 return RedirectToAction("Login");
             }
 
-            // 3. Validate dữ liệu nhập
+            // 1. Validate Họ và tên
             if (string.IsNullOrWhiteSpace(data.CustomerName))
-                ModelState.AddModelError(nameof(data.CustomerName), "Tên không được để trống");
+                ModelState.AddModelError(nameof(data.CustomerName), "Vui lòng nhập họ và tên.");
 
-            // (Thêm các validate khác nếu cần)
+            // 2. Validate Email (Kiểm tra rỗng + Định dạng)
+            if (string.IsNullOrWhiteSpace(data.Email))
+            {
+                ModelState.AddModelError(nameof(data.Email), "Vui lòng nhập địa chỉ Email.");
+            }
+            else
+            {
+                // Pattern kiểm tra email cơ bản
+                string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                if (!Regex.IsMatch(data.Email, emailPattern))
+                {
+                    ModelState.AddModelError(nameof(data.Email), "Địa chỉ Email không đúng định dạng.");
+                }
+            }
+
+            // 3. Validate Số điện thoại (Kiểm tra rỗng + Định dạng VN 10 số)
+            if (string.IsNullOrWhiteSpace(data.Phone))
+            {
+                ModelState.AddModelError(nameof(data.Phone), "Vui lòng nhập số điện thoại.");
+            }
+            else
+            {
+                // Pattern: Bắt đầu bằng số 0, theo sau là 9 chữ số bất kỳ (Tổng 10 số)
+                string phonePattern = @"^0\d{9}$";
+                if (!Regex.IsMatch(data.Phone, phonePattern))
+                {
+                    ModelState.AddModelError(nameof(data.Phone), "Số điện thoại không hợp lệ (phải bắt đầu bằng số 0 và gồm 10 chữ số).");
+                }
+            }
 
             if (!ModelState.IsValid)
-            {
                 return View("Profile", data);
-            }
 
             // 4. Xử lý logic dữ liệu
             // Lấy dữ liệu cũ từ DB để giữ lại những thông tin không có trong Form (như Password, Email, IsLocked)
@@ -255,7 +318,11 @@ namespace SV22T1080053.Shop.Controllers
             {
                 // -- Upload ảnh mới --
                 string fileName = $"{DateTime.Now.Ticks}_{uploadPhoto.FileName}";
-                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), ApplicationContext.CustomerImagePath);
+                // Lấy thư mục hiện tại của Shop, lùi ra ngoài 1 cấp (..), rồi đi vào Admin
+                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SV22T1080053.Admin", "wwwroot", "images", "customers");
+
+                // Chuẩn hóa đường dẫn (để xóa các dấu .. thừa)
+                folderPath = Path.GetFullPath(folderPath);
                 if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
 
                 string filePath = Path.Combine(folderPath, fileName);

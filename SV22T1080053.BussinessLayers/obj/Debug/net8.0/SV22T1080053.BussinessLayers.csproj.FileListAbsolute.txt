@@ -15,3 +15,4 @@ E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\ne
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\refint\SV22T1080053.BussinessLayers.dll
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.pdb
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\ref\SV22T1080053.BussinessLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.BussinessLayers\obj\Debug\net8.0\SV22T1080053.BussinessLayers.sourcelink.json

@@ -13,3 +13,4 @@ E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\refint\SV22T1080053.DataLayers.dll
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.pdb
 E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\ref\SV22T1080053.DataLayers.dll
+E:\Lap trinh ung dung web\SV22T1080053\SV22T1080053.DataLayers\obj\Debug\net8.0\SV22T1080053.DataLayers.sourcelink.json

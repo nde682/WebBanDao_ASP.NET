@@ -98,7 +98,8 @@ namespace SV22T1080053.DataLayers
                     Phone, 
                     Email, 
                     Photo, 
-                    IsWorking)
+                    IsWorking,
+                    RoleNames)
                     
                     Values(@FullName, 
                     @BirthDate, 
@@ -106,7 +107,8 @@ namespace SV22T1080053.DataLayers
                     @Phone, 
                     @Email, 
                     @Photo, 
-                    @IsWorking);
+                    @IsWorking,
+                    @RoleNames);
                     Select SCOPE_IDENTITY();";
             var parameters = new
             {
@@ -116,7 +118,8 @@ namespace SV22T1080053.DataLayers
                 data.Phone,
                 data.Email,
                 data.Photo,
-                data.IsWorking
+                data.IsWorking,
+                RoleNames="Employee"
             };
             return await connection.ExecuteScalarAsync<int>(sql, parameters, commandType: System.Data.CommandType.Text);
         }

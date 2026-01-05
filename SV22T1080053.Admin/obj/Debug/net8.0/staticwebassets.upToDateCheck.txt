@@ -1,6 +1,10 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\customers\639023606273569374_5.jpg
+wwwroot\images\customers\639032341322519325_hehe.png
+wwwroot\images\customers\639032342365435466_istockphoto-517188688-612x612.jpg
+wwwroot\images\customers\639032342591160149_tai-anh-phong-canh-dep-3.jpg
+wwwroot\images\customers\default-user.png
 wwwroot\images\customers\NOimages.png
 wwwroot\images\employees\638981104967916410_avatacuade.jpg
 wwwroot\images\employees\638981105468587240_WIN_20250220_19_28_21_Pro.jpg
@@ -9,7 +13,7 @@ wwwroot\images\employees\638987024502288720_WIN_20250404_13_52_45_Pro.jpg
 wwwroot\images\employees\638987024978796350_WIN_20250909_18_35_57_Pro.jpg
 wwwroot\images\employees\639016851251982534_anhDaiDienADM.jpg
 wwwroot\images\employees\avatar5.png
-wwwroot\images\employees\NOimages.png
+wwwroot\images\employees\nophoto.png
 wwwroot\images\products\638993155111859855_anh-phong-canh-66-1.jpg
 wwwroot\images\products\638993165000302456_anh-phong-canh-66-1.jpg
 wwwroot\images\products\638993165248565760_istockphoto-517188688-612x612.jpg

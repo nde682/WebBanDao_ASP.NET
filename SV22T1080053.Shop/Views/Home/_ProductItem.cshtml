@@ -1,0 +1,32 @@
+﻿@model SV22T1080053.DomainModels.Product
+@using SV22T1080053.Shop.AppCodes
+
+<div class="col-md-6 col-lg-4 col-xl-3">
+    <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
+        <div class="product-item-inner border rounded">
+            <div class="product-item-inner-item">
+                <img src="@ApplicationContext.ProductImagePath@Model.Photo" class="img-fluid w-100 rounded-top" alt="@Model.ProductName" style="height: 250px; object-fit: cover;">
+
+                @* <div class="product-new">New</div> *@ 
+                
+                <div class="product-details">
+                    <a href="~/Product/Detail/@Model.ProductID"><i class="fa fa-eye fa-1x"></i></a>
+                </div>
+            </div>
+            <div class="text-center rounded-bottom p-4">
+                <a href="~/Product/Detail/@Model.ProductID" class="d-block mb-2 text-truncate">@Model.ProductName</a>
+                <span class="text-primary fs-5 fw-bold">@Model.Price.ToString("N0") ₫</span>
+            </div>
+        </div>
+        <div class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
+            <a href="javascript:;" onclick="addToCart(@Model.ProductID)" class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4 ajax-add-to-cart">
+                <i class="fas fa-shopping-cart me-2"></i> Thêm vào giỏ
+            </a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <p class=" text-primary"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

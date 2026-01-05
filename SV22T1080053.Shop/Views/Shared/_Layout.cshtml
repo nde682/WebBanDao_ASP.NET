@@ -32,6 +32,26 @@
             <span class="sr-only">Loading...</span>
         </div>
     </div>
+    <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-success" id="addToCartModalLabel">
+                        <i class="fas fa-check-circle me-2"></i>Thành công
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="mb-0 fs-5">Sản phẩm đã được thêm vào giỏ hàng!</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Mua tiếp</button>
+
+                    <a href="~/Cart/Index" class="btn btn-primary rounded-pill px-4">Xem giỏ hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
     @{
         await Html.RenderPartialAsync("_Header");
     }

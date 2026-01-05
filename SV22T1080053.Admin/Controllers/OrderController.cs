@@ -10,7 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SV22T1080053.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Employee")]
     public class OrderController : Controller
     {
         private const string PRODUCT_SEARCH_FOR_SALE = "ProductSearchForSale";

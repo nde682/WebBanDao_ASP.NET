@@ -6,7 +6,7 @@ using SV22T1080053.DomainModels;
 
 namespace SV22T1080053.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Employee")]
     public class CategoryController : Controller
     {
         public const int PAGE_SIZE = 20;

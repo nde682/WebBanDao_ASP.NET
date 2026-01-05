@@ -9,7 +9,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SV22T1080053.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Employee")]
     public class ProductController : Controller
     {
         private const int PAGESIZE = 20;

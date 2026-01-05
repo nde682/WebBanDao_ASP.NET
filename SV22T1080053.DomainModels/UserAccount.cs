@@ -35,5 +35,9 @@ namespace SV22T1080053.DomainModels
         /// Chuỗi các quyền của tài khoản, phân cách bởi dấu phẩy
         /// </summary>
         public string RoleNames { get; set; } = "";
+        /// <summary>
+        /// Kiểm tra tài khoản bị khoá hay không
+        /// </summary>
+        public bool IsLocked { get; set; } = false;
     }
 }
